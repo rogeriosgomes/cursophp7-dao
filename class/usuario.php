@@ -1,6 +1,5 @@
 <?php
 
-require_once("config.php");
 
 
 class Usuario {
@@ -48,17 +47,14 @@ class Usuario {
 
         $results = $sql ->select("SELECT * FROM Tb_usuarios WHERE idusuario=:ID", array(":ID"=>$id));
 
-         if(count($results)> 0){
+         if(count($results) > 0){
 
             $row = $results[0];
 
             $this->setIdusuario($row['idusuario']);
-            $this->setLogin($row['Login']);
-            $this->setSenha($row['Senha']);
-            $this->setDtcadastro(new DateTime($row['Dtcadastro']));
-            
-
-
+            $this->setLogin($row['login']);
+            $this->setSenha($row['senha']);
+            $this->setDtcadastro(new DateTime($row['dtcadastro']));
 
          }
          
@@ -66,10 +62,11 @@ class Usuario {
 
     public function __toString(){
 
-        return json_encode(array("idusuario" =>$this->getIdusuario(),
+        return json_encode(array("idusuario" =>$this->getIdusuario() ,
                                  "login"     =>$this->getLogin(),
                                  "senha"     =>$this->getSenha(),
-                                 "dtcadastro"=>$this->getDtcadastro()->format("d/m/y") ));
+                                 "dtcadastro"=>$this->getDtcadastro()->format("d/m/y") 
+                            ));
         
     }
 
@@ -91,11 +88,11 @@ class Usuario {
 // echo $senha ->getSenha();
 
 
-$senha = new Usuario();
+// $senha = new Usuario();
 
-$senha -> loadByid(1);
+// $senha -> loadByid(1);
 
-echo $senha;
+// echo $senha;
 
 
 
