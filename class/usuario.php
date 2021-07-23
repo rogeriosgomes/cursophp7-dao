@@ -60,6 +60,47 @@ class Usuario {
          
     }
 
+
+    public static function getList(){
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_usuarios ORDER BY login");
+
+    }
+
+    public static function search($login){
+
+        $sql = new Sql();
+
+        return $sql->select ("SELECT * FROM tb_usuarios WHERE login LIKE :SEARCH ORDER BY login", array(
+         ':SEARCH'=>"%".$login."%"
+        ));
+    }
+
+
+    public function login($login, $senha){
+
+        $sql = new Sql();
+
+        $results = $sql ->select("SELECT * FROM Tb_usuarios WHERE login =:LOGIN AND senha=:SENHA", array(
+            ":LOGIN"=>$login,
+            "SENHA"=>$senha));
+
+         if(count($results) > 0){
+
+            $row = $results[0];
+
+            $this->setIdusuario($row['idusuario']);
+            $this->setLogin($row['login']);
+            $this->setSenha($row['senha']);
+            $this->setDtcadastro(new DateTime($row['dtcadastro']));
+         } else{
+             throw new Exception("Login e/ou senha invalidos.");
+         }
+
+    }
+
     public function __toString(){
 
         return json_encode(array("idusuario" =>$this->getIdusuario() ,
@@ -75,24 +116,7 @@ class Usuario {
 
 }
 
-// $usuario = new Usuario();
 
-// $usuario -> setIdusuario('rogerio');
-
-// $senha = new Usuario();
-
-// $senha -> setSenha('123456');
-
-// echo $usuario ->getIdusuario();
-// echo '</br>';
-// echo $senha ->getSenha();
-
-
-// $senha = new Usuario();
-
-// $senha -> loadByid(1);
-
-// echo $senha;
 
 
 
